@@ -1,0 +1,144 @@
+extends layout
+
+block content
+    //- //h1= title   Пример за HTML коментар
+    //- //-p Welcome to #{title} - Пример за Pug коментар - не се вижда в генерирания HTML
+    //- h1 Scheduled reads
+    //- h3= user
+    //- p=count
+    //- p=info
+    //- a(href="") reload
+    //- | ::
+    //- a(href="logout") LOGOUT
+
+    //- form(method="post", class="row row-cols-lg-auto g-3 align-items-center")
+    //-     div(class="col-12")
+    //-         label(for="reads_add", class="form-label") To do:
+    //-         input(type="hidden", name="action", value="add")
+    //-     div(class="col-12")
+    //-         input(type="text", name="reads", id="reads_add", class="form-control")
+    //-     div(class="col-12")
+    //-         input(type="submit", class="btn btn-primary")
+    //- if reads.length <= 0
+    //-     p No tasks
+    //- else
+    //-     //- p #{x}
+    //-     each v, i in reads
+    //-         p
+    //-         form(method="post", class="row row-cols-lg-auto g-3 align-items-center")
+    //-             div(class="col-12")
+    //-                 label #{i} :: #{v}
+    //-                 input(type="hidden", name="action", value="del")
+    //-                 input(type="hidden", name="reads", value=i)
+    //-             div(class="col-12")
+    //-                 input(type="submit", value="X", class="btn btn-danger")
+    //-     hr
+
+    if info
+        h1.alert.alert-info!= info
+            a(href="") reload
+                | ::
+            a(href="logout") LOGOUT
+        div.container
+            h2 reads APP
+            button.btn.btn-success(data-bs-toggle="modal" data-bs-target="#modalAdd") + Add New Task +
+            table.table.table-striped.table-hover#mytable
+                thead.bg-warning.text-uppercase.font-weight-bold
+                    tr
+                        td id
+                        td cover
+                        td title
+                        td author
+                        td date_started
+                        td date_finished
+                        td current_page
+                        td pages
+                        td action
+                tbody
+                    each row in rows
+                        tr
+                            td= row.id
+                            td
+                                img.img-fluid.rounded-circle.img-thumbnail(src=row.cover) 
+                            td= row.title 
+                            td= row.author 
+                            td= row.date_started 
+                            td= row.date_finished 
+                            td= row.current_page 
+                            td= row.pages
+                            td= row.user
+                            td
+                                pre= row.title
+                            td
+                                div.row
+                                    a.btn.btn-info.edit(href="javascript:void(0);" data-id=row.id data-task=row.task data-url=row.url) EDIT
+                                    span &nbsp;&nbsp;&nbsp;
+                                    a.btn.btn-danger.delete(href="javascript:void(0);" data-id=row.id) X
+            //modal form ADD - File upload
+            form(action="/reads/upload" method="post" enctype="multipart/form-data")
+                div.modal.fade#modalAdd(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+                    div.modal-dialog(role="document")
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title#exampleModalLabel Add New Task
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                div.form-group
+                                    textarea.form-control(name="task" placeholder=" Task To do " required)
+                                div.form-group
+                                    input.form-control(type="file" name="file")
+                            div.modal-footer
+                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                                button.btn.btn-success(type="submit") Save
+
+            //modal form DELETE
+            form#add-row-form(action="/reads/delete" method="post")
+                div.modal.fade#DeleteModal(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")
+                    div.modal-dialog
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title#modalLabel Delete Confirmation
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                strong Are you sure to delete this task?
+                            div.modal-footer
+                                input.form-control.id(type="hidden" name="id" required)
+                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                                button.btn.btn-danger(type="submit") Delete
+
+            //modal form EDIT/UPDATE
+            form(action="/reads/update" method="post")
+                div.modal.fade#EditModal(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")
+                    div.modal-dialog(role="document")
+                        div.modal-content
+                            div.modal-header
+                                h5.modal-title#modalLabel Edit Task
+                                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                            div.modal-body
+                                div.form-group
+                                    textarea.form-control.task(name="task" placeholder=" Your task " required)
+                                div.form-group
+                                    input.form-control.url(type="text" name="url" placeholder=" Picture URL ")
+                            div.modal-footer
+                                input.form-control.id(type="hidden" name="id" required)
+                                button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                                button.btn.btn-info(type="submit") Update
+
+            script(src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js")
+            script.
+                $(document).ready(function(){
+                    //showing modal form DELETE
+                    $('#mytable').on('click','.delete',function(){
+                        $('#DeleteModal').modal('show');
+                        $('.id').val($(this).data('id'));
+                    });
+
+                    //showing modal form EDIT
+                    $('#mytable').on('click','.edit',function(){
+                        $('#EditModal').modal('show');
+                        $('.id').val($(this).data('id'));
+                        $('.task').val($(this).data('task'));
+                        $('.url').val($(this).data('url'));
+                    });
+                });
+            hr.mx-auto(width="80%")

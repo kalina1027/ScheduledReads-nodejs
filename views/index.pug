@@ -1,0 +1,190 @@
+extends layout
+
+block content
+  div.app-main-page.pb-3
+    if info
+        div.index-header.d-flex.justify-content-between.p-3
+          h3 Scheduled Reads
+          div.text-end
+            div.user-container.d-flex.align-items-center.flex-nowrap
+              h4 Welcome back, 
+              span.username.ms-1=info
+              span !
+            div.d-flex.gap-2.justify-content-end
+              a(href="") Reload
+              a(href="logout") Logout
+
+        //- h1.alert.alert-info!= info
+        //-     a(href="") reload
+        //-         | ::
+        //-     a(href="logout") LOGOUT
+        div.container-books
+          div.d-flex.justify-content-between.my-4
+            h2.text-center.mb-0 My books
+            button.btn.btn-warning(data-bs-toggle="modal" data-bs-target="#modalAdd") Add Book
+          div.d-flex.flex-column.gap-4 
+            each row in rows
+              div.book-card.d-flex.gap-4.rounded-3.p-3
+                div.image-side 
+                  div.image-td
+                    img.img-fluid.rounded-2(src=row.cover) 
+                div.data-side.w-100
+                  div.d-flex.justify-content-between
+                    pre(style="overflow: hidden")
+                      h3.m-0= row.title 
+                    div.actions-container.d-flex.gap-3
+                      a.edit(href="javascript:void(0);" data-id=row.id data-cover=row.cover data-title=row.title data-author=row.author data-datestarted=row.date_started data-datefinished=row.date_finished data-currentpage=row.current_page data-pages=row.pages)
+                        <i class="bi-pencil"></i>
+                      a.delete(href="javascript:void(0);" data-id=row.id)
+                        <i class="bi-trash"></i>
+                  h4.m-0= row.author
+                  div.d-flex.gap-5.mt-2
+                    div.d-flex.gap-4
+                      div.text-center
+                        p Start date
+                        span= row.date_started
+                      div.text-center
+                        p End date
+                        span= row.date_finished
+                    div.d-flex.gap-4
+                      div.text-center
+                        p Current position
+                        h5= row.current_page
+                      div.text-center
+                        p Total pages
+                        h5= row.pages
+
+            //modal form ADD Book
+            form(action="/upload" method="post" enctype="multipart/form-data")
+              div.modal.fade#modalAdd(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+                div.modal-dialog(role="document")
+                  div.modal-content
+                    div.modal-header
+                      h5.modal-title#exampleModalLabel Add New Book
+                      button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    div.modal-body.d-flex.flex-column.gap-2
+                      div.form-group
+                        label.form-label Title
+                        textarea.form-control(name="title" placeholder="Title" required)
+                      div.form-group
+                        label.form-label Author
+                        input.form-control(type='text' name="author" placeholder="Author")
+                      div.d-flex.justify-content-between.gap-3
+                        div.form-group.w-100
+                          label.form-label Date Started
+                          input.form-control(type='date' name="date_started" placeholder="Date Started")
+                        div.form-group.w-100
+                          label.form-label Date Finished
+                          input.form-control(type='date' name="date_finished" placeholder="Date Finished")
+                      div.d-flex.justify-content-between.gap-3
+                        div.form-group.w-100
+                          label.form-label Current Page
+                          input.form-control(type='number' name="current_page" placeholder="Current Page" value="0")
+                        div.form-group.w-100
+                          label.form-label Total pages
+                          input.form-control(type='number' name="total_pages" placeholder="Total pages")
+                      div.form-group
+                        label.form-label Book Cover (or use an URL)
+                        input.form-control(type="file" name="cover")
+                        input.form-control(type="text" name="cover_url")
+                    div.modal-footer
+                      button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                      button.btn.btn-warning(type="submit") Save
+
+            //modal form DELETE
+            form#add-row-form(action="/delete" method="post")
+              div.modal.fade#DeleteModal(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")
+                div.modal-dialog
+                  div.modal-content
+                    div.modal-header
+                      h5.modal-title#modalLabel Delete Confirmation
+                      button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    div.modal-body
+                      strong This action will delete the current book!
+                    div.modal-footer
+                      input.form-control.id(type="hidden" name="id" required)
+                      button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                      button.btn.btn-warning(type="submit") Okay
+
+            //modal form EDIT
+            form(action="/update" method="post" enctype="multipart/form-data")
+              div.modal.fade#EditModal(tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true")
+                div.modal-dialog(role="document")
+                  div.modal-content
+                    div.modal-header
+                      h5.modal-title#modalLabel Edit Book Data
+                      button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+                    div.modal-body.d-flex.flex-column.gap-2
+                      div.form-group
+                        label.form-label Title
+                        textarea.form-control(name="title" placeholder="Title" required)
+                      div.form-group
+                        label.form-label Author
+                        input.form-control(type='text' name="author" placeholder="Author")
+                      div.d-flex.justify-content-between.gap-3
+                        div.form-group.w-100
+                          label.form-label Date Started
+                          input.form-control(type='date' name="date_started" placeholder="Date Started")
+                        div.form-group.w-100
+                          label.form-label Date Finished
+                          input.form-control(type='date' name="date_finished" placeholder="Date Finished")
+                      div.d-flex.justify-content-between.gap-3
+                        div.form-group.w-100
+                          label.form-label Current Page
+                          input.form-control(type='number' name="current_page" placeholder="Current Page" value="0")
+                        div.form-group.w-100
+                          label.form-label Total pages
+                          input.form-control(type='number' name="total_pages" placeholder="Total pages")
+                      div.form-group
+                        label.form-label Book Cover (or use an URL)
+                        p.book-cover.m-0
+                        input.form-control(type="hidden" name="cover_previous")
+                        input.form-control(type="file" name="cover_update")
+                        input.form-control(type="text" name="cover_url")
+                    div.modal-footer
+                      input.form-control.id(type="hidden" name="id" required)
+                      button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Cancel
+                      button.btn.btn-warning(type="submit") Update
+        script(src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js")
+        script.
+          $(document).ready(function(){
+            //showing modal form DELETE
+            $('.container-books').on('click','.delete',function(){
+              $('#DeleteModal').modal('show');
+              $('.id').val($(this).data('id'));
+            });
+
+            //showing modal form EDIT
+            $('.container-books').on('click','.edit',function(){
+              $('#EditModal').modal('show');
+              $('.id').val($(this).data('id'));
+              $('#EditModal textarea[name="title"]').val($(this).data('title'));
+              $('#EditModal input[name="author"]').val($(this).data('author'));
+              $('#EditModal input[name="date_started"]').val($(this).data('datestarted'));
+              $('#EditModal input[name="date_finished"]').val($(this).data('datefinished'));
+              $('#EditModal input[name="current_page"]').val($(this).data('currentpage'));
+              $('#EditModal input[name="total_pages"]').val($(this).data('pages'));
+              
+              $('#EditModal .book-cover').html('');
+              $('#EditModal input[name="cover_url"]').val('');
+
+              if($(this).data('cover') != '') {
+                $('#EditModal .book-cover').html($(this).data('cover') + '<span style="cursor:pointer" class="remove-cover ms-2"> X </span>');
+                $('#EditModal input[name="cover_url"]').val($(this).data('cover'));
+              }
+              if( $(this).data('cover').includes('/images/') ) {
+                $('#EditModal .book-cover').html($(this).data('cover').split('/images/')[1] + '<span style="cursor:pointer" class="remove-cover ms-2"> X </span>');
+                $('#EditModal input[name="cover_previous"]').val($(this).data('cover'));
+                $('#EditModal input[name="cover_url"]').val('');
+              }
+
+              $('.remove-cover').click(function() {
+                $('#EditModal input[name="cover_previous"]').val('');
+                $('#EditModal input[name="cover_url"]').val('');
+                $('#EditModal .book-cover').html('');
+              });
+            });
+            
+
+          });
+        

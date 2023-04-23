@@ -1,0 +1,132 @@
+:root {
+  --primary-color: #c6adce;
+  --secondary-color: #623e6e;
+  --third-color: #3D2645;
+  --fourth-color: #e2d3e7;
+  --primary-text-dark: #31283b;
+  --primary-text-light: #f6f1fc;
+  --color-contrast: #f88f20;
+} 
+
+*{
+  font-family: 'Nunito';
+  color: var(--primary-text-light);
+}
+
+body {
+  /* padding: 50px; */
+  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
+  font: 16px 'Nunito', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  /* min-height: 100vh; */
+}
+
+a {
+  /* color: #00B7FF; */
+}
+
+.app-background {
+  background: var(--primary-color);
+  min-height: 100vh;
+}
+
+.headings-container h1{
+  font-weight: 700;
+}
+
+.headings-container h2{
+  font-weight: 600;
+}
+
+.headings-container h3{
+  font-weight: 500;
+}
+
+.login-form {
+  background: var(--secondary-color);
+}
+
+.app-main-page {
+  background: var(--fourth-color);
+  min-height: 100vh;
+}
+
+.app-main-page * {
+  color: var(--secondary-color);
+}
+
+.index-header h3 {
+  font-weight: 600;
+}
+
+.user-container * {
+  font-size: 20px;
+  margin: 0;
+}
+
+.index-header a {
+  color: var(--primary-text-dark);
+  font-size: 18px;
+}
+
+.container-books {
+  max-width: 1000px;
+  padding: 0 20px;
+  margin: auto;
+}
+
+.book-card {
+  background: var(--secondary-color);
+}
+
+.book-card * {
+  color: var(--primary-text-light);
+}
+
+.book-card h4 {
+  font-size: 20px;
+}
+
+.book-card h5 {
+  margin: 0;
+}
+
+.book-card p {
+  margin: 0;
+}
+
+.general-table thead {
+  background: var(--secondary-color);
+}
+
+.general-table thead *{
+  color: var(--primary-text-light);
+}
+
+.general-table tbody tr td {
+  padding: 16px 8px;
+}
+
+.general-table tbody * {
+  color: var(--primary-text-dark);
+}
+
+.general-table img {
+  width: 70px;
+  height: 100px;
+}
+
+.image-td {
+  width: 100px;
+}
+
+.actions-container i {
+  font-size: 25px;
+  line-height: 1;
+}
+
+
+
+.modal-dialog * {
+  color: var(--primary-text-dark);
+}

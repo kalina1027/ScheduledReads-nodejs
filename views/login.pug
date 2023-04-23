@@ -1,0 +1,18 @@
+extends layout
+
+block content
+      div.text-center.headings-container
+         h1.mb-4.pt-5 Scheduled reads 
+         h2.mb-4.pb-3 Track your reads!
+         h3.mb-3 Log in to see your books
+
+      form.mx-auto.w-25.p-3.d-flex.flex-column.gap-3.login-form(method="post")
+         div.form-group
+            label Username:
+            input.form-control(type="text" name="username" placeholder=" Enter user name " value="demo")
+         div.form-group
+            label Password:
+            input.form-control(type="password" name="password" value="demo")
+
+         div.form-group
+            input.btn.btn-warning.w-100(type="submit" value="Login")
