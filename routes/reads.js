@@ -86,15 +86,15 @@ router.post('/upload',(req, res) => {
     }
     if(req.files && req.files.cover && req.files.cover != null && req.files.cover != '') {
         let filename = req.files.cover.name.split('.');
-        req.files.cover.mv('../public/images/' + req.files.cover.name, (err) => {
+        req.files.cover.mv('./public/images/' + req.files.cover.name, (err) => {
             if (err) throw err;
             
         });
         url = '/images/' + filename[0] + '.' + filename[1];
-        fs.rename('../public/images/' + req.files.cover.name, '../public/images/' + filename[0] + '_' + Date.now() + '.' + filename[1], function(err) {
+        /*fs.rename('../public/images/' + req.files.cover.name, '../public/images/' + filename[0] + '_' + Date.now() + '.' + filename[1], function(err) {
             if ( err ) {}
             url = '/images/' + filename[0] + '_' + Date.now() + '.' + filename[1];
-        });
+        });*/
     }
     let currentPage=req.body.current_page;
     if(req.body.current_page > req.body.total_pages)
@@ -154,14 +154,14 @@ router.post('/update', (req, res) => {
     }
     if(req.files && req.files.cover_update && req.files.cover_update != null && req.files.cover_update != '') {
         let filename = req.files.cover_update.name.split('.');
-        req.files.cover_update.mv('../public/images/' + req.files.cover_update.name, (err) => {
+        req.files.cover_update.mv('./public/images/' + req.files.cover_update.name, (err) => {
             if (err) throw err;
         });
         url = '/images/' + filename[0] + '.' + filename[1];
-        fs.rename('../public/images/' + req.files.cover_update.name, '../public/images/' + filename[0] + '_' + Date.now() + '.' + filename[1], function(err) {
+        /*fs.rename('../public/images/' + req.files.cover_update.name, '../public/images/' + filename[0] + '_' + Date.now() + '.' + filename[1], function(err) {
             if ( err ) {}
             url = '/images/' + filename[0] + '_' + Date.now() + '.' + filename[1];
-        });
+        });*/
     }
     else if(req.body.cover_previous && req.body.cover_previous != '' && req.body.cover_url == '') {
         url = req.body.cover_previous;
