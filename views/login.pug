@@ -7,6 +7,9 @@ block content
          h3.mb-3 Log in to see your books
 
       form.mx-auto.w-25.p-3.d-flex.flex-column.gap-3.login-form(method="post")
+         if warn
+            div.form-group.text-light.text-center.m-0
+               span=warn
          div.form-group
             label Username:
             input.form-control(type="text" name="username" placeholder=" Enter user name ")
