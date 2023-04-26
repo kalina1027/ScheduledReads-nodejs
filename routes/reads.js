@@ -46,7 +46,7 @@ router.post('/login', function(req, res){
                 req.session.count = 0;
                 res.redirect("/");
             } else {
-                res.render('login', {warn: 'TRY AGAIN'});
+                res.render('login', {warn: 'Wrong credentials! Please try again!'});
             }
         });
 });
